@@ -13,12 +13,15 @@ Use Spotify API to predict wether as song is a Kpop song or not
 ```
 python3 spotclass.py username
 ```
+Classifier needs two playlists id to run -> one playlist of kpop songs and another one of not kpop songs
+
 
 # Running predictor
 
 ```
 python3 PredictorSpot.py username
 ```
+Predictor accesses music saved in Spotify and takes the 10 first to test
 
 # Output example
 ```
