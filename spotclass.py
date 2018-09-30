@@ -45,15 +45,12 @@ for nb_song in tqdm(range(0,900,100)):
 	token = util.prompt_for_user_token(username, scope)
 	if token:
 		sp = spotipy.Spotify(auth=token)
-		#ids = sp.user_playlists(user = username,limit=50, offset=0)
 		results = sp.user_playlist_tracks(user = username,  playlist_id='2tKrzVfEIbNBjiX7Xwu1w7', fields=None, limit=100, offset=0, market=None)
-		#results = sp.current_user_saved_tracks(limit=50, offset= nb_song)
 		for item in results['items']:
 			track = item['track']
 		#	print (track['name'] + ' - ' + track['artists'][0]['name'])
 		#	print(sp.audio_features(tracks =[track['id']]))
 			song_train_id.append(sp.audio_features(tracks =[track['id']]))
-			#x_train = sp.audio_features(tracks =[track['id']]['danceability']['energy'])
 	else:
         	print ("Can't get token for", username)
 
@@ -80,13 +77,11 @@ for nb_song in tqdm(range(0,900,100)):
 	if token:
 		sp = spotipy.Spotify(auth=token)
 		results = sp.user_playlist_tracks(user = username, playlist_id='3OGDPCKLW0bNYgM2hUPWmf', fields=None, limit=100, offset=0, market=None)
-		#results = sp.current_user_saved_tracks(limit=50, offset= nb_song)
 		for item in results['items']:
 			track = item['track']
 			#print (track['name'] + ' - ' + track['artists'][0]['name'])
 			#print(sp.audio_features(tracks =[track['id']]))
 			song_train_id_kpop.append(sp.audio_features(tracks =[track['id']]))
-			#x_train = sp.audio_features(tracks =[track['id']]['danceability']['energy'])
 	else:
         	print ("Can't get token for", username)
 
@@ -117,9 +112,6 @@ print(x_train.shape)
 print(x_test.shape)
 x_train = x_train.reshape(1440,10)
 x_test = x_test.reshape(360,10)
-'''
-x_train= x_train.astype('float32')
-'''
 y_train = np.array(y_train)
 y_test = np.array(y_test)
 y_train = keras.utils.to_categorical(y_train,2)
@@ -132,7 +124,6 @@ y_test = keras.utils.to_categorical(y_test,2)
 
 model = Sequential()
 model.add(Dense(32,input_shape=(10,)))
-#model.add(Dense(32, activation='relu'))
 model.add(LeakyReLU(0.2))
 model.add(Dense(64))
 model.add(LeakyReLU(0.2))
